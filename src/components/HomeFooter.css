@@ -1,0 +1,14 @@
+.footer {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.footer-badge {
+    display: inline-block;
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+}

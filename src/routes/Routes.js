@@ -10,7 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/movie/:id" element={<MovieDetails />} />

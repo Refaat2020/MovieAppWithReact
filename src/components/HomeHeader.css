@@ -1,0 +1,51 @@
+/* Header.css - Header component styles */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 4rem;
+}
+
+.logo {
+    font-size: 2.25rem;
+    font-weight: bold;
+}
+
+.logo-text {
+    color: white;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-image {
+    height:200px ;
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+.logo-text-italic {
+    color: white;
+    font-style: italic;
+    margin-left: 0.25rem;
+}
+
+.nav {
+    display: flex;
+    gap: 3rem;
+    font-size: 1.125rem;
+}
+
+.nav-link {
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: white;
+}

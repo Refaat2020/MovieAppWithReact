@@ -1,0 +1,49 @@
+/* MovieGrid.css - Movie grid and card component styles */
+
+.movie-grid {
+    padding: 0 4rem 4rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.movie-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+.movie-image {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16 / 19;
+}
+
+.movie-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(172, 168, 168, 0.3) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.movie-card:hover .movie-overlay {
+    opacity: 1;
+}
+
+.movie-title-container {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+}
+
+.movie-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+}

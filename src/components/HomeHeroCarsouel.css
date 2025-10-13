@@ -1,0 +1,107 @@
+/* HeroCarousel.css */
+@import url('https://fonts.googleapis.com/css2?family=Tienne:wght@400;700;900&family=Tilt+Warp&display=swap');
+
+/* ====== Hero Section ====== */
+.hero-section {
+    padding: 0 4rem 4rem 4rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hero-content {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* النص على اليسار */
+.hero-text {
+    width: 33.333%;
+}
+
+.hero-subtitle {
+    color: #9F9F9F;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-family: "Tilt Warp", sans-serif;
+    font-weight: 400;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fffefe;
+    margin-bottom: 1rem;
+    font-family: "Tienne", serif;
+}
+
+.carousel-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.carousel-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+}
+
+.carousel-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.carousel-info {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    z-index: 5;
+}
+
+.carousel-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.carousel-description {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    color: #ccc;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    opacity: 0.8;
+}
+
+/* ====== Swiper Dots ====== */
+.swiper-pagination-bullet {
+    background: white;
+    opacity: 0.5;
+    z-index: 1000;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+}
