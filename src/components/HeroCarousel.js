@@ -1,6 +1,6 @@
 import "./HomeHeroCarsouel.css"
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -17,7 +17,7 @@ export default function HeroCarousel({ movies }) {
                 </div>
                 <div className="carousel-container">
                     <Swiper
-                        modules={[Navigation, Pagination, Scrollbar, A11y]}
+                        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
                         spaceBetween={30}
                         slidesPerView={1}
                         loop={true}

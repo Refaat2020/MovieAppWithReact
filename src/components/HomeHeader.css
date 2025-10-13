@@ -4,7 +4,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 4rem;
+    padding: 0rem 4rem;
+    padding-bottom: 1rem;
 }
 
 .logo {
@@ -47,5 +48,5 @@
 }
 
 .nav-link:hover {
-    color: white;
+    color: #ff0000;
 }
