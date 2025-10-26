@@ -1,7 +1,8 @@
 import "./authentication.css";
 import AuthContainer from  "./AuthContainer";
 import React, {useEffect, useState} from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useLocation, Link } from 'wouter';
+
 import useAuthStore from "../store/useAuthStore";
 import {toast} from "react-toastify";
 
@@ -11,7 +12,7 @@ export function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { login, loading, error, user } = useAuthStore();
-    const navigate = useNavigate();
+    const [, setLocation] = useLocation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,15 +30,12 @@ export function LoginForm() {
 
         });
     }, [error]);
-
     useEffect(() => {
         if (user) {
-            // toast.success("Welcome back!");
-           console.log(user);
-            // // ✅ Login succeeded → redirect
-            // navigate("/home");
+            setLocation('/',{replace:true});
+            // navigate('/', { replace: false });
         }
-    }, [user, navigate]);
+    }, [user, setLocation]);
 
     return (
         <AuthContainer>
@@ -55,12 +53,6 @@ export function LoginForm() {
                         <div className="highlight"></div>
                     </div>
                     <button type="submit" className="login-btn" disabled={loading}> {loading ? "Logging in..." : "Log in"}</button>
-                    <div className="extra-options">
-                        <label className="remember-me">
-                            <input type="checkbox"/>
-                            <span>Remember me</span>
-                        </label>
-                    </div>
                 </form>
                 <div className="signup-option">
                     <span>You don't have an account?</span>

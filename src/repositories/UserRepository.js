@@ -1,5 +1,4 @@
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-import { auth } from "../services/firebase_service/firebaseConfig";
 import UserData from "../models/UserData";
 
 const db = getFirestore();
@@ -25,6 +24,7 @@ const UserRepository = {
             const userRef = doc(db, "users", uid);
             const snapshot = await getDoc(userRef);
             if (snapshot.exists()) {
+                console.log(snapshot.data(),'refaat');
                 return new UserData(snapshot.data());
             } else {
                 return null;

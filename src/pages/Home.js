@@ -1,9 +1,36 @@
 import HomeHeader from '../components/HomeHeader';
 import HeroCarousel from '../components/HeroCarousel';
 import MovieGrid from '../components/MovieGrid';
-import  "./HomeMovie.css"
+import "./HomeMovie.css"
+import {useEffect} from "react";
 
 export default function Home(){
+    useEffect(() => {
+        let hasNavigatedAway = false;
+
+        const preventBack = () => {
+            // Only prevent if user is trying to go back FROM home page
+            if (window.location.pathname === '/' && hasNavigatedAway) {
+                window.history.pushState(null, '', window.location.href);
+            }
+        };
+
+        // Track if user has navigated away
+        const handleLocationChange = () => {
+            if (window.location.pathname !== '/') {
+                hasNavigatedAway = true;
+            }
+        };
+
+        window.addEventListener('popstate', preventBack);
+        window.addEventListener('pushState', handleLocationChange);
+
+        return () => {
+            window.removeEventListener('popstate', preventBack);
+            window.removeEventListener('pushState', handleLocationChange);
+        };
+    }, []);
+
     const featuredMovies = [
         {
             title: "Stranger Things",
@@ -35,6 +62,7 @@ export default function Home(){
             image: "https://static.wikia.nocookie.net/horrormovies/images/8/82/American_Psycho_%282000%29.jpg"
         }
     ];
+
     return (
         <div className="home-movie">
             <HomeHeader />
@@ -43,4 +71,3 @@ export default function Home(){
         </div>
     );
 }
-

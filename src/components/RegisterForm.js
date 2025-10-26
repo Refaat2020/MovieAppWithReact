@@ -1,7 +1,7 @@
 import "./authentication.css";
 import AuthContainer from  "./AuthContainer";
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from 'wouter';
 import useAuthStore from "../store/useAuthStore"
 import {toast} from "react-toastify";
 
@@ -12,6 +12,7 @@ export default function RegisterForm() {
     const [password,setPassword] = useState("");
     const [passwordConformation,setPasswordConformation] = useState("");
     const {register,loading,error} = useAuthStore();
+    const [, setLocation] = useLocation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,7 +43,7 @@ export default function RegisterForm() {
             toast.error(error, { theme: "dark" });
         } else {
             toast.success("Account created successfully!", { theme: "dark" });
-            // navigate("/");
+            setLocation('/',{replace:true});
         }
     };
 
