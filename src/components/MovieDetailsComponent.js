@@ -2,20 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useRoute } from 'wouter';
 import { movieRepository } from "../repositories/MovieRepository";
 import "./MovieDetails.css";
+import { useUserStore } from "../store/useUserStore";
+
 
 export default function MovieDetailsComponent() {
-    const [match, params] = useRoute("/movie/:id");
+    const [, params] = useRoute("/movie/:id");
     const id = params?.id;
     const [, setLocation] = useLocation();
 
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     // Action states
-    const [isInWatchlist, setIsInWatchlist] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false);
-    const [isWatched, setIsWatched] = useState(false);
+
+    const {
+        addToWatchlist,
+        removeFromWatchlist,
+        addToFavorites,
+        removeFromFavorites,
+        addToWatched,
+        removeFromWatched,
+        isInWatchlist,
+        isInFavorites,
+        isWatched,
+    } = useUserStore();
+    // const [isInWatchlist, setIsInWatchlist] = useState(false);
+    // const [isFavorite, setIsFavorite] = useState(false);
+    // const [isWatched, setIsWatched] = useState(false);
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -25,14 +38,6 @@ export default function MovieDetailsComponent() {
                 const data = await movieRepository.fetchMovieDetails(id);
                 setMovie(data);
 
-                // Load saved states from localStorage
-                const watchlist = JSON.parse(localStorage.getItem('watchlist') || '[]');
-                const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-                const watched = JSON.parse(localStorage.getItem('watched') || '[]');
-
-                setIsInWatchlist(watchlist.includes(id));
-                setIsFavorite(favorites.includes(id));
-                setIsWatched(watched.includes(id));
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -43,46 +48,28 @@ export default function MovieDetailsComponent() {
         fetchMovieDetails();
     }, [id]);
 
-    const toggleWatchlist = () => {
-        const watchlist = JSON.parse(localStorage.getItem('watchlist') || '[]');
-        let updated;
-
-        if (isInWatchlist) {
-            updated = watchlist.filter(movieId => movieId !== id);
+    const handleToggleWatchlist = () => {
+        if (isInWatchlist(movie.id)) {
+            removeFromWatchlist(movie.id);
         } else {
-            updated = [...watchlist, id];
+            addToWatchlist(movie);
         }
-
-        localStorage.setItem('watchlist', JSON.stringify(updated));
-        setIsInWatchlist(!isInWatchlist);
     };
 
-    const toggleFavorite = () => {
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        let updated;
-
-        if (isFavorite) {
-            updated = favorites.filter(movieId => movieId !== id);
+    const handleToggleFavorite = () => {
+        if (isInFavorites(movie.id)) {
+            removeFromFavorites(movie.id);
         } else {
-            updated = [...favorites, id];
+            addToFavorites(movie);
         }
-
-        localStorage.setItem('favorites', JSON.stringify(updated));
-        setIsFavorite(!isFavorite);
     };
 
-    const toggleWatched = () => {
-        const watched = JSON.parse(localStorage.getItem('watched') || '[]');
-        let updated;
-
-        if (isWatched) {
-            updated = watched.filter(movieId => movieId !== id);
+    const handleToggleWatched = () => {
+        if (isWatched(movie.id)) {
+            removeFromWatched(movie.id);
         } else {
-            updated = [...watched, id];
+            addToWatched(movie);
         }
-
-        localStorage.setItem('watched', JSON.stringify(updated));
-        setIsWatched(!isWatched);
     };
 
     if (loading) {
@@ -149,27 +136,27 @@ export default function MovieDetailsComponent() {
                     {/* Action Buttons */}
                     <div className="action-buttons">
                         <button
-                            className={`action-btn ${isInWatchlist ? 'active' : ''}`}
-                            onClick={toggleWatchlist}
+                            className={`action-btn ${isInWatchlist(movie.id) ? 'active' : ''}`}
+                            onClick={handleToggleWatchlist}
                         >
                             <span className="icon">📋</span>
-                            {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+                            {isInWatchlist(movie.id) ? 'In Watchlist' : 'Add to Watchlist'}
                         </button>
 
                         <button
-                            className={`action-btn ${isFavorite ? 'active' : ''}`}
-                            onClick={toggleFavorite}
+                            className={`action-btn ${isInFavorites(movie.id) ? 'active' : ''}`}
+                            onClick={handleToggleFavorite}
                         >
-                            <span className="icon">{isFavorite ? '❤️' : '🤍'}</span>
-                            {isFavorite ? 'Favorited' : 'Add to Favorites'}
+                            <span className="icon">{isInFavorites(movie.id) ? '❤️' : '🤍'}</span>
+                            {isInFavorites(movie.id) ? 'Favorited' : 'Add to Favorites'}
                         </button>
 
                         <button
-                            className={`action-btn ${isWatched ? 'active' : ''}`}
-                            onClick={toggleWatched}
+                            className={`action-btn ${isWatched(movie.id) ? 'active' : ''}`}
+                            onClick={handleToggleWatched}
                         >
-                            <span className="icon">{isWatched ? '✓' : '○'}</span>
-                            {isWatched ? 'Watched' : 'Mark as Watched'}
+                            <span className="icon">{isWatched(movie.id) ? '✓' : '○'}</span>
+                            {isWatched(movie.id) ? 'Watched' : 'Mark as Watched'}
                         </button>
                     </div>
 

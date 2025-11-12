@@ -17,7 +17,7 @@ export default function MovieCard({movie}) {
             />
             <div className="movie-overlay">
                 <div className="movie-title-container">
-                    <h4 className="movie-title">{movie.title}</h4>
+                    <h4 className="movie-title-grid">{movie.title}</h4>
                 </div>
             </div>
         </div>

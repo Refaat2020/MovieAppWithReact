@@ -12,6 +12,9 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import MovieDetails from "./pages/MovieDetails";
+import NotificationManager from "./components/NotificationManager";
+import ToastNotification from "./components/ToastNotification";
+import { useUserStore } from "./store/useUserStore";
 
 // DEBUG: Track all location changes
 const LocationTracker = () => {
@@ -66,6 +69,7 @@ const RouteDebugger = ({ path, component: Component, name }) => {
 
 function App() {
     const [location] = useLocation();
+    const initializeAuth = useUserStore(state => state.initializeAuth);
 
     useEffect(() => {
         console.log('🚀 App component mounted');
@@ -80,7 +84,10 @@ function App() {
     useEffect(() => {
         console.log('🔄 App detected location change:', location);
     }, [location]);
-
+    useEffect(() => {
+        // Initialize auth listener on app mount
+        initializeAuth();
+    }, [initializeAuth]);
     return (
         <>
             <LocationTracker />
@@ -157,6 +164,11 @@ function App() {
                 draggable
                 pauseOnHover
             />
+            {/* Notification Manager */}
+            <NotificationManager />
+
+            {/* Toast Notification */}
+            <ToastNotification />
         </>
     );
 }

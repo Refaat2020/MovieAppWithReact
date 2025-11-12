@@ -48,19 +48,19 @@ export default function Home() {
             window.removeEventListener("popstate", preventBack);
             window.removeEventListener("pushState", handleLocationChange);
         };
-    }, []); // Remove dependencies to prevent double calls
+    }, [fetchPopular, fetchTopRated, popular.length]); // Remove dependencies to prevent double calls
 
     // Infinite scroll logic
-    const loadMore = useCallback(() => {
+    const loadMore = useCallback(async () => {
         if (!loading && hasMore) {
-            fetchPopular(currentPage + 1);
+            await fetchPopular(currentPage + 1);
         }
     }, [loading, hasMore, currentPage, fetchPopular]);
 
     useEffect(() => {
         const options = {
             root: null,
-            rootMargin: "200px", // Start loading 200px before reaching bottom
+            rootMargin: "200px",
             threshold: 0.1,
         };
 
@@ -116,8 +116,8 @@ export default function Home() {
     const topPicks =
         popular.length > 0
             ? popular.map((movie) => ({
-                title: movie.title,
                 id: movie.id,
+                title: movie.title,
                 image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
             }))
             : [];
