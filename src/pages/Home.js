@@ -1,67 +1,85 @@
-import HomeHeader from '../components/HomeHeader';
-import HeroCarousel from '../components/HeroCarousel';
-import MovieGrid from '../components/MovieGrid';
-import "./HomeMovie.css"
-import {useEffect} from "react";
+import React, { useEffect } from "react";
+import HomeHeader from "../components/HomeHeader";
+import HeroCarousel from "../components/HeroCarousel";
+import MovieGrid from "../components/MovieGrid";
+import { useMovieStore } from "../store/useMoviesStore";
+import "./HomeMovie.css";
 
-export default function Home(){
+export default function Home() {
+    const {
+        topRated,
+        popular,
+        loading,
+        error,
+        fetchTopRated,
+        fetchPopular,
+    } = useMovieStore();
+
     useEffect(() => {
+        fetchTopRated();
+        fetchPopular();
+
         let hasNavigatedAway = false;
 
         const preventBack = () => {
-            // Only prevent if user is trying to go back FROM home page
-            if (window.location.pathname === '/' && hasNavigatedAway) {
-                window.history.pushState(null, '', window.location.href);
+            if (window.location.pathname === "/" && hasNavigatedAway) {
+                window.history.pushState(null, "", window.location.href);
             }
         };
 
-        // Track if user has navigated away
         const handleLocationChange = () => {
-            if (window.location.pathname !== '/') {
+            if (window.location.pathname !== "/") {
                 hasNavigatedAway = true;
             }
         };
 
-        window.addEventListener('popstate', preventBack);
-        window.addEventListener('pushState', handleLocationChange);
+        window.addEventListener("popstate", preventBack);
+        window.addEventListener("pushState", handleLocationChange);
 
         return () => {
-            window.removeEventListener('popstate', preventBack);
-            window.removeEventListener('pushState', handleLocationChange);
+            window.removeEventListener("popstate", preventBack);
+            window.removeEventListener("pushState", handleLocationChange);
         };
-    }, []);
+    }, [fetchTopRated, fetchPopular]);
 
-    const featuredMovies = [
-        {
-            title: "Stranger Things",
-            description: "On November 6, also known as Stranger Things Day 2024, Netflix confirmed that Stranger Things 5 will premiere in 2025. Though the streamer did not share an exact date, this is the biggest update fans have gotten yet on the arrival of season 5 — it almost seemed like it would never make it to the screen.",
-            image: "https://upload.wikimedia.org/wikipedia/commons/3/38/Stranger_Things_logo.png"
-        },
-        {
-            title: "The Dark Knight",
-            description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-            image: "https://cdn.europosters.eu/image/1300/posters/the-dark-knight-trilogy-on-fire-i197743.jpg"
-        }
-    ];
+    // 🔹 أثناء التحميل
+    if (loading) {
+        return (
+            <div className="home-movie">
+                <HomeHeader />
+                <p style={{ textAlign: "center", marginTop: "3rem" }}>Loading movies...</p>
+            </div>
+        );
+    }
 
-    const topPicks = [
-        {
-            title: "La La Land",
-            image: "https://upload.wikimedia.org/wikipedia/pt/c/c0/La_La_Land_%28filme%29.png"
-        },
-        {
-            title: "Interstellar",
-            image: "https://www.hauweele.net/~gawen/blog/wp-content/uploads/2014/11/interstellar.jpg"
-        },
-        {
-            title: "Inglourious Basterds",
-            image: "https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781441138217.jpg"
-        },
-        {
-            title: "American Psycho",
-            image: "https://static.wikia.nocookie.net/horrormovies/images/8/82/American_Psycho_%282000%29.jpg"
-        }
-    ];
+    // 🔹 في حالة الخطأ
+    if (error) {
+        return (
+            <div className="home-movie">
+                <HomeHeader />
+                <p style={{ color: "red", textAlign: "center", marginTop: "3rem" }}>
+                    Error: {error}
+                </p>
+            </div>
+        );
+    }
+
+    const featuredMovies =
+        topRated.length > 0
+            ? topRated.map((movie) => ({
+                title: movie.title,
+                description: movie.overview,
+                image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            }))
+            : [];
+
+    const topPicks =
+        popular.length > 0
+            ? popular.map((movie) => ({
+                title: movie.title,
+                image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            }))
+            : [];
 
     return (
         <div className="home-movie">
