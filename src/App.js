@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import MovieDetails from "./pages/MovieDetails";
 
 // DEBUG: Track all location changes
 const LocationTracker = () => {
@@ -106,6 +107,13 @@ function App() {
                         {() => {
                             console.log('🔵 Rendering Profile route (checking auth...)');
                             return <PrivateRoute component={Profile} />;
+                        }}
+                    </Route>
+
+                    <Route path="/movie/:id">
+                        {() => {
+                            console.log('🔵 Rendering MovieDetails route (checking auth...)');
+                            return <PrivateRoute component={MovieDetails} />;
                         }}
                     </Route>
 

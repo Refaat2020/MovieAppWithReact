@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import HomeHeader from "../components/HomeHeader";
 import HeroCarousel from "../components/HeroCarousel";
 import MovieGrid from "../components/MovieGrid";
@@ -13,11 +13,19 @@ export default function Home() {
         error,
         fetchTopRated,
         fetchPopular,
+        currentPage,
+        hasMore,
     } = useMovieStore();
 
+    const observerRef = useRef(null);
+    const loadingRef = useRef(null);
+
     useEffect(() => {
-        fetchTopRated();
-        fetchPopular();
+        // Initial fetch only if no data
+        if (popular.length === 0) {
+            fetchTopRated();
+            fetchPopular();
+        }
 
         let hasNavigatedAway = false;
 
@@ -40,10 +48,41 @@ export default function Home() {
             window.removeEventListener("popstate", preventBack);
             window.removeEventListener("pushState", handleLocationChange);
         };
-    }, [fetchTopRated, fetchPopular]);
+    }, []); // Remove dependencies to prevent double calls
 
-    // 🔹 أثناء التحميل
-    if (loading) {
+    // Infinite scroll logic
+    const loadMore = useCallback(() => {
+        if (!loading && hasMore) {
+            fetchPopular(currentPage + 1);
+        }
+    }, [loading, hasMore, currentPage, fetchPopular]);
+
+    useEffect(() => {
+        const options = {
+            root: null,
+            rootMargin: "200px", // Start loading 200px before reaching bottom
+            threshold: 0.1,
+        };
+
+        observerRef.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                loadMore();
+            }
+        }, options);
+
+        if (loadingRef.current) {
+            observerRef.current.observe(loadingRef.current);
+        }
+
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+        };
+    }, [loadMore]);
+
+    // Initial loading state
+    if (loading && popular.length === 0) {
         return (
             <div className="home-movie">
                 <HomeHeader />
@@ -52,7 +91,7 @@ export default function Home() {
         );
     }
 
-    // 🔹 في حالة الخطأ
+    // Error state
     if (error) {
         return (
             <div className="home-movie">
@@ -69,6 +108,7 @@ export default function Home() {
             ? topRated.map((movie) => ({
                 title: movie.title,
                 description: movie.overview,
+                id: movie.id,
                 image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
             }))
             : [];
@@ -77,6 +117,7 @@ export default function Home() {
         popular.length > 0
             ? popular.map((movie) => ({
                 title: movie.title,
+                id: movie.id,
                 image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
             }))
             : [];
@@ -86,6 +127,20 @@ export default function Home() {
             <HomeHeader />
             <HeroCarousel movies={featuredMovies} />
             <MovieGrid movies={topPicks} />
+
+            {/* Infinite scroll trigger */}
+            <div ref={loadingRef} style={{ height: "20px", margin: "2rem 0" }}>
+                {loading && (
+                    <p style={{ textAlign: "center", color: "#666" }}>
+                        Loading more movies...
+                    </p>
+                )}
+                {!hasMore && popular.length > 0 && (
+                    <p style={{ textAlign: "center", color: "#666" }}>
+                        No more movies to load
+                    </p>
+                )}
+            </div>
         </div>
     );
 }

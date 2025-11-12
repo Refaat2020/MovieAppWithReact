@@ -19,4 +19,13 @@ export const movieRepository = {
             throw error;
         }
     },
+    async fetchMovieDetails(movieId) {
+        try {
+            return await movieService.getMovieDetails(movieId);
+        } catch (error) {
+            console.error("Error fetching popular movies:", error);
+            throw error;
+        }
+    },
+
 };

@@ -1,6 +1,8 @@
 import "./HomeHeroCarsouel.css"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
+import { useLocation,  } from 'wouter';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -8,6 +10,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 export default function HeroCarousel({ movies }) {
+    const [, setLocation] = useLocation();
+
+    const handleMovieClick = (movieId) => {
+        console.log(movieId);
+        setLocation(`/movie/${movieId}`,);
+    };
     return (
         <div className="hero-section">
             <div className="hero-content">
@@ -33,7 +41,7 @@ export default function HeroCarousel({ movies }) {
                     >
                         {movies.map((movie, index) => (
                             <SwiperSlide key={index}>
-                                <div className="carousel-item">
+                                <div className="carousel-item" onClick={() => handleMovieClick(movie.id)}>
                                     <img
                                         src={movie.image}
                                         alt={movie.title}

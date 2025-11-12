@@ -1,4 +1,4 @@
-import { AxiosClient } from "./axiosInstance";
+import {AxiosClient} from "./axiosInstance";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -17,5 +17,10 @@ export const movieService = {
             params: { language: "en-US",'page': page,},
         });
         return data.results;
+    },
+    getMovieDetails: async (movieId) => {
+        return await apiClient.get(`/movie/${movieId}`, {
+            params: {language: "en-US",},
+        });
     },
 };

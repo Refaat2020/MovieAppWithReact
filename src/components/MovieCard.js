@@ -1,9 +1,15 @@
 import "./HomeMovieGrid.css"
+import { useLocation,  } from 'wouter';
 
 
 export default function MovieCard({movie}) {
+    const [, setLocation] = useLocation();
+    const handleMovieClick = (movieId) => {
+        console.log(movieId);
+        setLocation(`/movie/${movieId}`,);
+    };
     return (
-        <div className="movie-card">
+        <div className="movie-card" onClick={() => handleMovieClick(movie.id)}>
             <img
                 src={movie.image}
                 alt={movie.title}
