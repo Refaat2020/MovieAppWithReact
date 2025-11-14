@@ -410,4 +410,13 @@
     .profile-sections {
         grid-template-columns: 1fr;
     }
+
+    .stat-card.clickable:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
+    }
+
+    .stat-card.clickable:hover .stat-icon {
+        transform: scale(1.1);
+    }
 }

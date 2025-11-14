@@ -15,6 +15,8 @@ import MovieDetails from "./pages/MovieDetails";
 import NotificationManager from "./components/NotificationManager";
 import ToastNotification from "./components/ToastNotification";
 import { useUserStore } from "./store/useUserStore";
+import MyMovies from "./pages/MyMovies";
+import MovieChatbot from "./components/MovieChatbot";
 
 // DEBUG: Track all location changes
 const LocationTracker = () => {
@@ -124,6 +126,13 @@ function App() {
                         }}
                     </Route>
 
+                    <Route path="/my-movies">
+                        {() => {
+                            console.log('🔵 Rendering MovieDetails route (checking auth...)');
+                            return <PrivateRoute component={MyMovies} />;
+                        }}
+                    </Route>
+
                     {/* Default/Home route */}
                     <Route path="/">
                         {() => {
@@ -169,6 +178,9 @@ function App() {
 
             {/* Toast Notification */}
             <ToastNotification />
+
+            {/* TMovieChatbot */}
+            <MovieChatbot />
         </>
     );
 }

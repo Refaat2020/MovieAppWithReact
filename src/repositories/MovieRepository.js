@@ -28,4 +28,13 @@ export const movieRepository = {
         }
     },
 
+    async searchForMovie(query) {
+        try {
+            return await movieService.movieSearch(query);
+        } catch (error) {
+            console.error("Error fetching popular movies:", error);
+            throw error;
+        }
+    },
+
 };

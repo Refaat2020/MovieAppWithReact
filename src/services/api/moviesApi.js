@@ -23,4 +23,10 @@ export const movieService = {
             params: {language: "en-US",},
         });
     },
+
+    movieSearch: async (query) => {
+        return await apiClient.get(`/search/movie`, {
+            params: {language: "en-US","query":query,"include_adult":true},
+        });
+    },
 };
