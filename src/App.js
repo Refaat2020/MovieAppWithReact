@@ -17,6 +17,7 @@ import ToastNotification from "./components/ToastNotification";
 import { useUserStore } from "./store/useUserStore";
 import MyMovies from "./pages/MyMovies";
 import MovieChatbot from "./components/MovieChatbot";
+import AppBar from "./components/AppBar";
 
 // DEBUG: Track all location changes
 const LocationTracker = () => {
@@ -93,7 +94,7 @@ function App() {
     return (
         <>
             <LocationTracker />
-
+            <AppBar />
             <div className="min-h-screen bg-gray-50">
                 <Switch>
                     {/* Public routes */}
