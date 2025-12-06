@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useCallback } from "react";
-import HomeHeader from "../components/HomeHeader";
 import HeroCarousel from "../components/HeroCarousel";
 import MovieGrid from "../components/MovieGrid";
 import { useMovieStore } from "../store/useMoviesStore";
@@ -85,7 +84,6 @@ export default function Home() {
     if (loading && popular.length === 0) {
         return (
             <div className="home-movie">
-                <HomeHeader />
                 <p style={{ textAlign: "center", marginTop: "3rem" }}>Loading movies...</p>
             </div>
         );
@@ -95,7 +93,6 @@ export default function Home() {
     if (error) {
         return (
             <div className="home-movie">
-                <HomeHeader />
                 <p style={{ color: "red", textAlign: "center", marginTop: "3rem" }}>
                     Error: {error}
                 </p>
@@ -124,7 +121,6 @@ export default function Home() {
 
     return (
         <div className="home-movie">
-            <HomeHeader />
             <HeroCarousel movies={featuredMovies} />
             <MovieGrid movies={topPicks} />
 

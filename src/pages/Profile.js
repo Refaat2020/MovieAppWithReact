@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User, Mail, Film, Heart, Clock, Star, LogOut, Edit2, Save, X } from 'lucide-react';
+import { User, Mail, Film, Heart, Clock, Star, LogOut, } from 'lucide-react';
 import './Profile.css';
 import useAuthStore from "../store/useAuthStore";
 import { useUserStore } from "../store/useUserStore";
@@ -17,7 +17,7 @@ function Profile() {
     } = useUserStore();
 
     const [, setLocation] = useLocation();
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing] = useState(false);
     const [editedName, setEditedName] = useState('');
     const [editedEmail, setEditedEmail] = useState('');
 
@@ -47,19 +47,6 @@ function Profile() {
         }
     }, [user, userLoading, setLocation]);
 
-    const handleSave = async () => {
-        console.log('💾 Saving profile changes');
-        // TODO: Implement profile update in Firebase
-        toast.info("Profile update feature coming soon!", { theme: "dark" });
-        setIsEditing(false);
-    };
-
-    const handleCancel = () => {
-        console.log('❌ Cancelling profile edit');
-        setEditedName(user.displayName || user.email?.split('@')[0] || 'User');
-        setEditedEmail(user.email || '');
-        setIsEditing(false);
-    };
 
     const handleLogout = async () => {
         await logout();
@@ -191,26 +178,6 @@ function Profile() {
                             </div>
                         )}
                     </div>
-
-                    {/*<div className="action-buttons">*/}
-                    {/*    {!isEditing ? (*/}
-                    {/*        <button className="btn-edit" onClick={() => setIsEditing(true)}>*/}
-                    {/*            <Edit2 size={18} />*/}
-                    {/*            Edit Profile*/}
-                    {/*        </button>*/}
-                    {/*    ) : (*/}
-                    {/*        <>*/}
-                    {/*            <button className="btn-save" onClick={handleSave}>*/}
-                    {/*                <Save size={18} />*/}
-                    {/*                Save*/}
-                    {/*            </button>*/}
-                    {/*            <button className="btn-cancel" onClick={handleCancel}>*/}
-                    {/*                <X size={18} />*/}
-                    {/*                Cancel*/}
-                    {/*            </button>*/}
-                    {/*        </>*/}
-                    {/*    )}*/}
-                    {/*</div>*/}
                 </div>
 
                 <div className="stats-grid">

@@ -124,7 +124,6 @@ const useAuthStore = create((set, get) => ({
                 success: true
             });
 
-            // CRITICAL FIX: Reset success after a short delay
             setTimeout(() => {
                 set({ success: null });
             }, 100);

@@ -154,9 +154,6 @@ class NotificationService {
         return "Notification" in window;
     }
 
-    isEnabled() {
-        return Notification.permission === "granted";
-    }
 }
 
 export const notificationService = new NotificationService();

@@ -45,12 +45,4 @@ export const useMovieStore = create((set, get) => ({
             set({ error: error.message, loading: false });
         }
     },
-
-    resetMovies: () => {
-        set({
-            popular: [],
-            currentPage: 1,
-            hasMore: true,
-        });
-    },
 }));

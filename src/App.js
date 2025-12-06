@@ -61,7 +61,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 
 // Wrapper to track component renders
-const RouteDebugger = ({ path, component: Component, name }) => {
+const RouteDebugger = ({component: Component, name }) => {
     useEffect(() => {
         console.log(`📄 ${name} component mounted`);
         return () => console.log(`📄 ${name} component unmounted`);
